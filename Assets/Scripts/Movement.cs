@@ -5,6 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     Rigidbody rididPizza;
+    AudioSource audioSource;
     [SerializeField] float thrustScale = 100f;
     [SerializeField] float rotationScale = 1f;
 
@@ -12,20 +13,32 @@ public class Movement : MonoBehaviour
     void Start()
     {
         rididPizza = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         ProcessThrust();
         ProcessRotation();
     }
 
     private void ProcessThrust()
     {
+        
         if(Input.GetKey(KeyCode.Space))
         {
             rididPizza.AddRelativeForce(Vector3.up * thrustScale * Time.deltaTime);
+            
+            if(!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            audioSource.Stop();
         }
     }
 
