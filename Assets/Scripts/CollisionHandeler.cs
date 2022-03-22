@@ -5,6 +5,15 @@ public class CollisionHandeler : MonoBehaviour
 {
     [SerializeField] float delayRespawnTime = 1f;
     [SerializeField] float delayLoadLevelTime = 1f;
+    [SerializeField] AudioClip successAudio;
+    [SerializeField] AudioClip crachAudio;
+
+    AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();    
+    }
 
     void OnCollisionEnter(Collision other)
     {
@@ -14,7 +23,7 @@ public class CollisionHandeler : MonoBehaviour
                 Debug.Log("You are on the start");
                 break;
             case "Finish":
-                StartSequence("LoadNextLevel",delayLoadLevelTime);
+                StartSequence("LoadNextLevel", successAudio, delayLoadLevelTime);
                 break;
             case "Fuel":
                 Debug.Log("Fuel renewed");
@@ -23,14 +32,15 @@ public class CollisionHandeler : MonoBehaviour
                 Debug.Log("Oh! Hello!");
                 break;            
             default:
-                StartSequence("ReloadLevel",delayRespawnTime);
+                StartSequence("ReloadLevel", crachAudio, delayRespawnTime);
                 break;
 
         }
     }
 
-    void StartSequence(string methodName, float delayTime)
+    void StartSequence(string methodName, AudioClip audioName, float delayTime)
     {
+        audioSource.PlayOneShot(audioName);
         GetComponent<Movement>().enabled = false;
         Invoke(methodName,delayTime);
     }

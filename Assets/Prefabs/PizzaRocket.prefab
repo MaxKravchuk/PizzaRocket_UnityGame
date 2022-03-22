@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 632578842}
   - component: {fileID: 632578840}
   - component: {fileID: 632578844}
+  - component: {fileID: 944636708888252911}
   m_Layer: 0
   m_Name: PizzaRocket
   m_TagString: Untagged
@@ -174,6 +175,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &944636708888252911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6955348690885829182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79246c2ad21167c4ca12df2cf6a77292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayRespawnTime: 1
+  delayLoadLevelTime: 1
 --- !u!1001 &808665208532724888
 PrefabInstance:
   m_ObjectHideFlags: 0
