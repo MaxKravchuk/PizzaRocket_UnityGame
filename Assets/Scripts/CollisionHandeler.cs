@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandeler : MonoBehaviour
 {
+    [SerializeField] float delayRespawnTime = 1f;
+    [SerializeField] float delayLoadLevelTime = 1f;
+
     void OnCollisionEnter(Collision other)
     {
         switch(other.gameObject.tag)
@@ -11,7 +14,7 @@ public class CollisionHandeler : MonoBehaviour
                 Debug.Log("You are on the start");
                 break;
             case "Finish":
-                LoadNexLevel();
+                StartSequence("LoadNextLevel",delayLoadLevelTime);
                 break;
             case "Fuel":
                 Debug.Log("Fuel renewed");
@@ -20,31 +23,45 @@ public class CollisionHandeler : MonoBehaviour
                 Debug.Log("Oh! Hello!");
                 break;            
             default:
-                ReloadLevel();
+                StartSequence("ReloadLevel",delayRespawnTime);
                 break;
 
         }
     }
 
+    void StartSequence(string methodName, float delayTime)
+    {
+        GetComponent<Movement>().enabled = false;
+        Invoke(methodName,delayTime);
+    }
+
+    // void StartCrashSequence(float delayTime)
+    // {
+    //     GetComponent<Movement>().enabled=false;
+    //     Invoke("ReloadLevel",delayTime);   
+    // }
+
+    // void StartLoadLevelSequence(float delayTime)
+    // {
+    //     GetComponent<Movement>().enabled=false;
+    //     Invoke("LoadNextLevel",delayTime);
+    // }
+
     void ReloadLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex; 
-        SceneManager.LoadScene(currentSceneIndex);
         Debug.Log("Oops, you are blew up!");
+        SceneManager.LoadScene(currentSceneIndex);
     }
 
-    void LoadNexLevel()
+    void LoadNextLevel()
     {
         int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        if(nextLevelIndex<=SceneManager.sceneCount)
-        {
-            SceneManager.LoadScene(nextLevelIndex);
-            Debug.Log($"This is {nextLevelIndex} level");
-        }
-        else
-        {
-            SceneManager.LoadScene(0);
-            Debug.Log($"This is {nextLevelIndex} level");
-        }
+
+        if(nextLevelIndex >= SceneManager.sceneCountInBuildSettings)
+            nextLevelIndex = 0;
+        
+        Debug.Log($"This is {nextLevelIndex} level");
+        SceneManager.LoadScene(nextLevelIndex);
     }
 }
