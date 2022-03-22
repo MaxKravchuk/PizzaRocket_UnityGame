@@ -14,16 +14,12 @@ public class Movement : MonoBehaviour
     Rigidbody rididPizza;
     AudioSource audioSource;
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
         rididPizza = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -36,22 +32,32 @@ public class Movement : MonoBehaviour
         
         if(Input.GetKey(KeyCode.Space))
         {
-            rididPizza.AddRelativeForce(Vector3.up * thrustScale * Time.deltaTime);
-
-            if(!audioSource.isPlaying)
-            {
-                audioSource.PlayOneShot(mainEngine);
-            }
-
-            if(!mainBooster.isPlaying)
-            {
-                mainBooster.Play();
-            }
+            StartThrusting();
         }
         else
         {
-            audioSource.Stop();
-            mainBooster.Stop();
+            StopSpawnThrustingParticles();
+        }
+    }
+
+    private void StopSpawnThrustingParticles()
+    {
+        audioSource.Stop();
+        mainBooster.Stop();
+    }
+
+    private void StartThrusting()
+    {
+        rididPizza.AddRelativeForce(Vector3.up * thrustScale * Time.deltaTime);
+
+        if (!audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(mainEngine);
+        }
+
+        if (!mainBooster.isPlaying)
+        {
+            mainBooster.Play();
         }
     }
 
@@ -59,24 +65,39 @@ public class Movement : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            ApplyRotation(rotationScale);
-            if(!leftBooster.isPlaying)
-            {
-                leftBooster.Play();
-            }
+            LeftRotation();
         }
         else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            ApplyRotation(-rotationScale);
-            if(!rightBooster.isPlaying)
-            {
-                rightBooster.Play();
-            }
+            RightRotation();
         }
         else
         {
-            leftBooster.Stop();
-            rightBooster.Stop();
+            StopSpawnRotationParticles();
+        }
+    }
+
+    private void StopSpawnRotationParticles()
+    {
+        leftBooster.Stop();
+        rightBooster.Stop();
+    }
+
+    private void RightRotation()
+    {
+        ApplyRotation(-rotationScale);
+        if (!rightBooster.isPlaying)
+        {
+            rightBooster.Play();
+        }
+    }
+
+    private void LeftRotation()
+    {
+        ApplyRotation(rotationScale);
+        if (!leftBooster.isPlaying)
+        {
+            leftBooster.Play();
         }
     }
 

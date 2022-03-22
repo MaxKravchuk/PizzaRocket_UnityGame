@@ -21,7 +21,12 @@ public class CollisionHandeler : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        switch(other.gameObject.tag)
+        ObstacleCollisionDetection(other);
+    }
+
+    private void ObstacleCollisionDetection(Collision other)
+    {
+        switch (other.gameObject.tag)
         {
             case "Launch pad":
                 Debug.Log("You are on the start");
@@ -34,7 +39,7 @@ public class CollisionHandeler : MonoBehaviour
                 break;
             case "Friendly":
                 Debug.Log("Oh! Hello!");
-                break;            
+                break;
             default:
                 StartSequence("ReloadLevel", crashAudio, delayRespawnTime, crashParticles);
                 break;
