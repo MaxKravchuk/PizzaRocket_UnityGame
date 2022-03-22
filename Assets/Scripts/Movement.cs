@@ -7,6 +7,9 @@ public class Movement : MonoBehaviour
     [SerializeField] float thrustScale = 100f;
     [SerializeField] float rotationScale = 1f;
     [SerializeField] AudioClip mainEngine;
+    [SerializeField] ParticleSystem mainBooster;
+    [SerializeField] ParticleSystem leftBooster;
+    [SerializeField] ParticleSystem rightBooster;
  
     Rigidbody rididPizza;
     AudioSource audioSource;
@@ -34,15 +37,21 @@ public class Movement : MonoBehaviour
         if(Input.GetKey(KeyCode.Space))
         {
             rididPizza.AddRelativeForce(Vector3.up * thrustScale * Time.deltaTime);
-            
+
             if(!audioSource.isPlaying)
             {
                 audioSource.PlayOneShot(mainEngine);
+            }
+
+            if(!mainBooster.isPlaying)
+            {
+                mainBooster.Play();
             }
         }
         else
         {
             audioSource.Stop();
+            mainBooster.Stop();
         }
     }
 
@@ -51,10 +60,23 @@ public class Movement : MonoBehaviour
         if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             ApplyRotation(rotationScale);
+            if(!leftBooster.isPlaying)
+            {
+                leftBooster.Play();
+            }
         }
         else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             ApplyRotation(-rotationScale);
+            if(!rightBooster.isPlaying)
+            {
+                rightBooster.Play();
+            }
+        }
+        else
+        {
+            leftBooster.Stop();
+            rightBooster.Stop();
         }
     }
 

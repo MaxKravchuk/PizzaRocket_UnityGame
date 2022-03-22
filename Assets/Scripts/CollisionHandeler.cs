@@ -6,13 +6,17 @@ public class CollisionHandeler : MonoBehaviour
     [SerializeField] float delayRespawnTime = 1f;
     [SerializeField] float delayLoadLevelTime = 1f;
     [SerializeField] AudioClip successAudio;
-    [SerializeField] AudioClip crachAudio;
+    [SerializeField] AudioClip crashAudio;
+    [SerializeField] ParticleSystem successParticles;
+    [SerializeField] ParticleSystem crashParticles;
 
     AudioSource audioSource;
 
+    bool isTransitioning = false;
+
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();    
+        audioSource = GetComponent<AudioSource>();
     }
 
     void OnCollisionEnter(Collision other)
@@ -23,7 +27,7 @@ public class CollisionHandeler : MonoBehaviour
                 Debug.Log("You are on the start");
                 break;
             case "Finish":
-                StartSequence("LoadNextLevel", successAudio, delayLoadLevelTime);
+                StartSequence("LoadNextLevel", successAudio, delayLoadLevelTime, successParticles);
                 break;
             case "Fuel":
                 Debug.Log("Fuel renewed");
@@ -32,30 +36,24 @@ public class CollisionHandeler : MonoBehaviour
                 Debug.Log("Oh! Hello!");
                 break;            
             default:
-                StartSequence("ReloadLevel", crachAudio, delayRespawnTime);
+                StartSequence("ReloadLevel", crashAudio, delayRespawnTime, crashParticles);
                 break;
 
         }
     }
 
-    void StartSequence(string methodName, AudioClip audioName, float delayTime)
+    void StartSequence(string methodName, AudioClip audioName, float delayTime, ParticleSystem particles)
     {
-        audioSource.PlayOneShot(audioName);
         GetComponent<Movement>().enabled = false;
+        if(!isTransitioning && audioName!=null && particles!=null)
+        {
+            audioSource.Stop();
+            audioSource.PlayOneShot(audioName);
+            particles.Play();
+            isTransitioning = true;
+        }
         Invoke(methodName,delayTime);
     }
-
-    // void StartCrashSequence(float delayTime)
-    // {
-    //     GetComponent<Movement>().enabled=false;
-    //     Invoke("ReloadLevel",delayTime);   
-    // }
-
-    // void StartLoadLevelSequence(float delayTime)
-    // {
-    //     GetComponent<Movement>().enabled=false;
-    //     Invoke("LoadNextLevel",delayTime);
-    // }
 
     void ReloadLevel()
     {
