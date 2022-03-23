@@ -24,6 +24,8 @@ public class Oscillator : MonoBehaviour
 
     private void StartMovements()
     {
+        if(period <= Mathf.Epsilon) return;
+
         float cycles = Time.time / period;
 
         const float tau = Mathf.PI * 2;
