@@ -58,8 +58,8 @@ public class CollisionHandeler : MonoBehaviour
             case "Fuel":
                 Debug.Log("Fuel renewed");
                 break;
-            case "Friendly":
-                Debug.Log("Oh! Hello!");
+            case "TheEnd":
+                StartSequence("LoadTheEndLevel", successAudio, delayLoadLevelTime, successParticles);
                 break;
             default:
                 StartSequence("ReloadLevel", crashAudio, delayRespawnTime, crashParticles);
@@ -99,8 +99,8 @@ public class CollisionHandeler : MonoBehaviour
         SceneManager.LoadScene(nextLevelIndex);
     }
 
-    public void GetLoadNextLevel()
+    void LoadTheEndLevel()
     {
-        LoadNextLevel();
+        SceneManager.LoadScene("The End");
     }
 }

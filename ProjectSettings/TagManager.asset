@@ -8,6 +8,7 @@ TagManager:
   - Fuel
   - Launch pad
   - Obstacle
+  - TheEnd
   layers:
   - Default
   - TransparentFX
