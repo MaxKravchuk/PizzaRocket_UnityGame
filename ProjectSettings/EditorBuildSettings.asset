@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Fly Over.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
+    path: Assets/Scenes/Movement Obstacles.unity
+    guid: f7d04a607b16afe44af05105f2976d8f
+  - enabled: 0
     path: Assets/Scenes/Fly Under.unity
     guid: fbe3473d472fbd646acb33c8e32d9833
   m_configObjects: {}
