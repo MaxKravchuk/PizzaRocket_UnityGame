@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,10 +14,28 @@ public class CollisionHandeler : MonoBehaviour
     AudioSource audioSource;
 
     bool isTransitioning = false;
+    bool collisionDisable = false;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+    }
+
+    void Update()
+    {
+        RespondToDebugKeys(); 
+    }
+
+    private void RespondToDebugKeys()
+    {
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextLevel();
+        }
+        else if(Input.GetKeyDown(KeyCode.C))
+        {
+            collisionDisable = !collisionDisable; //toggle collision
+        }
     }
 
     void OnCollisionEnter(Collision other)
@@ -26,6 +45,8 @@ public class CollisionHandeler : MonoBehaviour
 
     private void ObstacleCollisionDetection(Collision other)
     {
+        if(collisionDisable)
+            return;
         switch (other.gameObject.tag)
         {
             case "Launch pad":
@@ -76,5 +97,10 @@ public class CollisionHandeler : MonoBehaviour
         
         Debug.Log($"This is {nextLevelIndex} level");
         SceneManager.LoadScene(nextLevelIndex);
+    }
+
+    public void GetLoadNextLevel()
+    {
+        LoadNextLevel();
     }
 }
